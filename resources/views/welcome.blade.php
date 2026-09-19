@@ -1,4 +1,12 @@
 <x-layout>
+    <div class="container pt-4">
+        @if (session()->has('message'))
+            <div class="alert alert-success text-center" role="alert">{{ session('message') }}</div>
+        @endif
+        @if (session()->has('errorMessage'))
+            <div class="alert alert-danger text-center" role="alert">{{ session('errorMessage') }}</div>
+        @endif
+    </div>
     <div class="container py-5 text-center">
         <h1 class="display-4">Presto.it</h1>
         <p>Pubblica un annuncio e dai una nuova vita ai tuoi oggetti.</p>

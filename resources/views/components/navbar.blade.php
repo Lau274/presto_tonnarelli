@@ -24,6 +24,14 @@
                     </div>
                 @endisset
                 @auth
+                    @if (Auth::user()->is_revisor)
+                        <a class="nav-link position-relative me-lg-2" href="{{ route('revisor.index') }}">
+                            Zona revisore
+                            <span class="badge rounded-pill text-bg-danger ms-1">{{ \App\Models\Article::toBeRevisedCount() }}</span>
+                        </a>
+                    @else
+                        <a class="nav-link" href="{{ route('revisor.request') }}">Lavora con noi</a>
+                    @endif
                     <a class="nav-link" href="{{ route('create.article') }}">Inserisci annuncio</a>
                     <span class="nav-link">Ciao, {{ Auth::user()->name }}</span>
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
