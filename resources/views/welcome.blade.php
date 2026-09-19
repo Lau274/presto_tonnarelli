@@ -4,4 +4,22 @@
         <p>Pubblica un annuncio e dai una nuova vita ai tuoi oggetti.</p>
         <a class="btn btn-dark" href="{{ route('create.article') }}">Inserisci annuncio</a>
     </div>
+
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Ultimi annunci</h2>
+        <div class="row justify-content-center align-items-center py-5">
+            @forelse ($articles as $article)
+                <div class="col-12 col-md-4">
+                    <x-card :article="$article" />
+                </div>
+            @empty
+                <div class="col-12 text-center">
+                    <h3>Non sono ancora stati creati articoli</h3>
+                </div>
+            @endforelse
+        </div>
+        <div class="text-center">
+            <a class="btn btn-outline-dark" href="{{ route('article.index') }}">Tutti gli annunci</a>
+        </div>
+    </div>
 </x-layout>

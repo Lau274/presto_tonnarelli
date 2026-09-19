@@ -7,6 +7,22 @@
         <div class="collapse navbar-collapse" id="navbarPresto">
             <div class="navbar-nav ms-auto align-items-lg-center">
                 <a class="nav-link" href="{{ route('homepage') }}">Home</a>
+                <a class="nav-link" href="{{ route('article.index') }}">Tutti gli articoli</a>
+                @isset($categories)
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorie</a>
+                        <ul class="dropdown-menu">
+                            @foreach ($categories as $category)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('byCategory', ['category' => $category]) }}">{{ $category->name }}</a>
+                                </li>
+                                @if (!$loop->last)
+                                    <li><hr class="dropdown-divider"></li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                @endisset
                 @auth
                     <a class="nav-link" href="{{ route('create.article') }}">Inserisci annuncio</a>
                     <span class="nav-link">Ciao, {{ Auth::user()->name }}</span>
