@@ -1,7 +1,7 @@
 @props(['article'])
 
 <div class="card mx-auto card-w shadow text-center mb-3">
-    <img src="{{ $article->images->isNotEmpty() ? Storage::url($article->images->first()->path) : 'https://picsum.photos/200' }}" class="card-img-top" alt="{{ __('ui.placeholderFor') }} {{ $article->title }}">
+    <img src="{{ $article->images->isNotEmpty() ? $article->images->first()->getUrl(300, 300) : 'https://picsum.photos/200' }}" class="card-img-top" alt="{{ __('ui.placeholderFor') }} {{ $article->title }}">
     <div class="card-body">
         <h4 class="card-title">{{ $article->title }}</h4>
         <h6 class="card-subtitle text-body-secondary">{{ $article->price }} €</h6>

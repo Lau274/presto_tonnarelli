@@ -12,7 +12,7 @@
                         @if ($article->images->count())
                             @foreach ($article->images as $key => $image)
                                 <div class="carousel-item @if ($loop->first) active @endif">
-                                    <img src="{{ Storage::url($image->path) }}" class="d-block w-100 rounded shadow" alt="{{ __('ui.photos') }} {{ $key + 1 }}: {{ $article->title }}">
+                                    <img src="{{ $image->getUrl(300, 300) }}" class="d-block w-100 rounded shadow" alt="{{ __('ui.photos') }} {{ $key + 1 }}: {{ $article->title }}">
                                 </div>
                             @endforeach
                         @else
