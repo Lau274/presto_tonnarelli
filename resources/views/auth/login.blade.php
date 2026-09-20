@@ -2,7 +2,7 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-12 col-md-6">
-                <h1 class="mb-4 text-center">Accedi</h1>
+                <h1 class="mb-4 text-center">{{ __("ui.login") }}</h1>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)
@@ -20,7 +20,7 @@
                         <label for="password" class="form-label">Password</label>
                         <input type="password" name="password" id="password" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-dark">Accedi</button>
+                    <button type="submit" class="btn btn-dark">{{ __("ui.login") }}</button>
                 </form>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\RevisorController;
 
 Route::get('/', [PublicController::class, 'homepage'])->name('homepage');
+Route::post('/lingua/{lang}', [PublicController::class, 'setLanguage'])->name('setLocale');
 Route::get('/search/article', [PublicController::class, 'searchArticles'])->name('article.search');
 Route::get('/annunci/crea', [ArticleController::class, 'create'])->name('create.article');
 Route::get('/article/index', [ArticleController::class, 'index'])->name('article.index');

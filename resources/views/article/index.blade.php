@@ -2,7 +2,7 @@
     <div class="container-fluid py-5">
         <div class="row justify-content-center text-center mb-4">
             <div class="col-12">
-                <h1 class="display-4">Tutti gli articoli</h1>
+                <h1 class="display-4">{{ __("ui.allArticles") }}</h1>
             </div>
         </div>
         <div class="row justify-content-center align-items-center py-5">
@@ -12,7 +12,7 @@
                 </div>
             @empty
                 <div class="col-12 text-center">
-                    <h3>Non sono ancora stati creati articoli</h3>
+                    <h3>{{ __("ui.noArticles") }}</h3>
                 </div>
             @endforelse
         </div>

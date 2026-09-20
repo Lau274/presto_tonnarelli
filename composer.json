@@ -15,6 +15,7 @@
         "laravel/scout": "*",
         "laravel/tinker": "^3.0",
         "livewire/livewire": "*",
+        "outhebox/blade-flags": "*",
         "teamtnt/laravel-scout-tntsearch-driver": "*"
     },
     "require-dev": {

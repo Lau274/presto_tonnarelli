@@ -23,7 +23,7 @@ class RevisorController extends Controller
         $article->setAccepted(true);
         $article->save();
 
-        return redirect()->back()->with('message', "Hai accettato l'articolo");
+        return redirect()->back()->with('message', __('ui.articleAccepted'));
     }
 
     public function reject(Article $article)
@@ -31,7 +31,7 @@ class RevisorController extends Controller
         $article->setAccepted(false);
         $article->save();
 
-        return redirect()->back()->with('message', "Hai rifiutato l'articolo");
+        return redirect()->back()->with('message', __('ui.articleRejected'));
     }
 
     public function requestForm()
@@ -47,7 +47,7 @@ class RevisorController extends Controller
     {
         Mail::to('admin@presto.it')->send(new BecomeRevisor(Auth::user()));
 
-        return redirect()->route('homepage')->with('message', 'Complimenti, hai richiesto di diventare revisore');
+        return redirect()->route('homepage')->with('message', __('ui.revisorRequested'));
     }
 
     public function makeRevisor(User $user)

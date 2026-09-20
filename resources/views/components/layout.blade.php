@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="{{ app()->getLocale() === 'uk' ? 'en' : app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -15,6 +15,6 @@ class IsRevisor
             return $next($request);
         }
 
-        return redirect()->route('homepage')->with('errorMessage', 'Zona riservata ai revisori.');
+        return redirect()->route('homepage')->with('errorMessage', __('ui.revisorOnly'));
     }
 }
