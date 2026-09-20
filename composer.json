@@ -12,8 +12,10 @@
         "php": "^8.3",
         "laravel/fortify": "*",
         "laravel/framework": "^13.17",
+        "laravel/scout": "*",
         "laravel/tinker": "^3.0",
-        "livewire/livewire": "*"
+        "livewire/livewire": "*",
+        "teamtnt/laravel-scout-tntsearch-driver": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

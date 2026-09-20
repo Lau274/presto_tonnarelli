@@ -23,6 +23,12 @@
                         </ul>
                     </div>
                 @endisset
+                <form class="d-flex ms-lg-3 my-2 my-lg-0" role="search" action="{{ route('article.search') }}" method="GET">
+                    <div class="input-group">
+                        <input type="search" name="query" class="form-control" placeholder="Cerca annunci" aria-label="Cerca annunci" value="{{ request('query') }}">
+                        <button type="submit" class="btn btn-outline-success">Cerca</button>
+                    </div>
+                </form>
                 @auth
                     @if (Auth::user()->is_revisor)
                         <a class="nav-link position-relative me-lg-2" href="{{ route('revisor.index') }}">

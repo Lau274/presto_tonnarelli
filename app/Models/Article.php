@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 
 class Article extends Model
 {
+    use Searchable;
+
     protected $fillable = ['title', 'description', 'price', 'category_id', 'user_id'];
 
     protected function casts(): array
@@ -22,6 +25,16 @@ class Article extends Model
     public static function toBeRevisedCount(): int
     {
         return self::whereNull('is_accepted')->count();
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'category' => $this->category->name,
+        ];
     }
 
     public function user(): BelongsTo

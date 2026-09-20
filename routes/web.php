@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\RevisorController;
 
 Route::get('/', [PublicController::class, 'homepage'])->name('homepage');
+Route::get('/search/article', [PublicController::class, 'searchArticles'])->name('article.search');
 Route::get('/annunci/crea', [ArticleController::class, 'create'])->name('create.article');
 Route::get('/article/index', [ArticleController::class, 'index'])->name('article.index');
 Route::get('/show/article/{article}', [ArticleController::class, 'show'])->name('article.show');
