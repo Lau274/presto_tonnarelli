@@ -29,6 +29,27 @@
             </select>
             @error('category') <p class="text-danger">{{ $message }}</p> @enderror
         </div>
+        <div class="mb-3">
+            <label for="temporary_images" class="form-label">{{ __('ui.photos') }}</label>
+            <input type="file" id="temporary_images" class="form-control @error('temporary_images') is-invalid @enderror" wire:model.live="temporary_images" multiple accept="image/*">
+            @error('temporary_images.*') <p class="text-danger">{{ $message }}</p> @enderror
+            @error('temporary_images') <p class="text-danger">{{ $message }}</p> @enderror
+            @error('images.*') <p class="text-danger">{{ $message }}</p> @enderror
+            @error('images') <p class="text-danger">{{ $message }}</p> @enderror
+        </div>
+        @if (!empty($images))
+            <div class="mb-3">
+                <p>{{ __('ui.photoPreview') }}</p>
+                <div class="row border border-success rounded shadow py-4 g-3">
+                    @foreach ($images as $key => $image)
+                        <div class="col-6 col-md-4 d-flex flex-column align-items-center" wire:key="photo-preview-{{ $key }}">
+                            <div class="img-preview shadow rounded" style="background-image: url('{{ $image->temporaryUrl() }}');"></div>
+                            <button type="button" class="btn btn-danger btn-sm mt-1" wire:click="removeImage({{ $key }})" aria-label="{{ __('ui.removePhoto') }} {{ $key + 1 }}">{{ __('ui.removePhoto') }}</button>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-dark">{{ __("ui.create") }}</button>
         </div>

@@ -13,13 +13,19 @@
             <div class="row justify-content-center g-4 align-items-center">
                 <div class="col-12 col-lg-7">
                     <div class="row g-2">
-                        @for ($i = 1; $i <= 6; $i++)
-                            <div class="col-6 col-md-4">
-                                <img src="https://picsum.photos/seed/presto-revisor-{{ $i }}/400/300"
-                                     class="img-fluid rounded shadow-sm w-100"
-                                     alt="{{ __("ui.placeholderImage") }} {{ $i }}">
-                            </div>
-                        @endfor
+                        @if ($article_to_check->images->count())
+                            @foreach ($article_to_check->images as $key => $image)
+                                <div class="col-6 col-md-4">
+                                    <img src="{{ Storage::url($image->path) }}" class="img-fluid rounded shadow-sm w-100" alt="{{ __('ui.photos') }} {{ $key + 1 }}: {{ $article_to_check->title }}">
+                                </div>
+                            @endforeach
+                        @else
+                            @for ($i = 1; $i <= 6; $i++)
+                                <div class="col-6 col-md-4">
+                                    <img src="https://picsum.photos/seed/presto-revisor-{{ $i }}/400/300" class="img-fluid rounded shadow-sm w-100" alt="{{ __('ui.placeholderImage') }} {{ $i }}">
+                                </div>
+                            @endfor
+                        @endif
                     </div>
                 </div>
                 <div class="col-12 col-lg-5">

@@ -6,9 +6,15 @@ use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateArticleForm extends Component
 {
+    use WithFileUploads;
+
+    public $images = [];
+    public $temporary_images = [];
+
     #[Validate('required|min:5')]
     public $title = '';
 
@@ -21,6 +27,34 @@ class CreateArticleForm extends Component
     #[Validate('required')]
     public $category = '';
 
+    public function updatedTemporaryImages()
+    {
+        $this->validate([
+            'temporary_images' => 'array|max:6',
+            'temporary_images.*' => 'image|max:1024',
+        ]);
+
+        if (count($this->images) + count($this->temporary_images) > 6) {
+            $this->addError('temporary_images', __('ui.maxImages'));
+            $this->temporary_images = [];
+            return;
+        }
+
+        foreach ($this->temporary_images as $image) {
+            $this->images[] = $image;
+        }
+
+        $this->temporary_images = [];
+    }
+
+    public function removeImage($key)
+    {
+        if (in_array($key, array_keys($this->images))) {
+            unset($this->images[$key]);
+            $this->images = array_values($this->images);
+        }
+    }
+
     public function store()
     {
         // La pagina è protetta da auth: anche il submit Livewire deve richiedere il login.
@@ -29,8 +63,12 @@ class CreateArticleForm extends Component
         }
 
         $this->validate();
+        $this->validate([
+            'images' => 'array|max:6',
+            'images.*' => 'image|max:1024',
+        ]);
 
-        Article::create([
+        $article = Article::create([
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
@@ -38,7 +76,13 @@ class CreateArticleForm extends Component
             'user_id' => Auth::id(),
         ]);
 
-        $this->reset('title', 'description', 'price', 'category');
+        foreach ($this->images as $image) {
+            $article->images()->create([
+                'path' => $image->store('images', 'public'),
+            ]);
+        }
+
+        $this->reset('title', 'description', 'price', 'category', 'images', 'temporary_images');
         session()->flash('success', __('ui.articleCreated'));
     }
 
