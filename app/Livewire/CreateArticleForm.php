@@ -4,9 +4,11 @@ namespace App\Livewire;
 
 use App\Jobs\GoogleVisionLabelImage;
 use App\Jobs\GoogleVisionSafeSearch;
+use App\Jobs\RemoveFaces;
 use App\Jobs\ResizeImage;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -60,7 +62,6 @@ class CreateArticleForm extends Component
 
     public function store()
     {
-        // Logica già presente nel progetto: non modificata dalla US7.
         if (! Auth::check()) {
             return $this->redirectRoute('login');
         }
@@ -79,15 +80,21 @@ class CreateArticleForm extends Component
             'user_id' => Auth::id(),
         ]);
 
-        foreach ($this->images as $image) {
-            $newFileName = "articles/{$article->id}";
-            $newImage = $article->images()->create([
-                'path' => $image->store($newFileName, 'public'),
-            ]);
+        if (count($this->images) > 0) {
+            foreach ($this->images as $image) {
+                $newFileName = "articles/{$article->id}";
+                $newImage = $article->images()->create([
+                    'path' => $image->store($newFileName, 'public'),
+                ]);
 
-            dispatch(new ResizeImage($newImage->path, 300, 300));
-            dispatch(new GoogleVisionSafeSearch($newImage->id));
-            dispatch(new GoogleVisionLabelImage($newImage->id));
+                RemoveFaces::withChain([
+                    new ResizeImage($newImage->path, 300, 300),
+                    new GoogleVisionSafeSearch($newImage->id),
+                    new GoogleVisionLabelImage($newImage->id),
+                ])->dispatch($newImage->id);
+            }
+
+            File::deleteDirectory(storage_path('/app/livewire-tmp'));
         }
 
         $this->reset('title', 'description', 'price', 'category', 'images', 'temporary_images');
