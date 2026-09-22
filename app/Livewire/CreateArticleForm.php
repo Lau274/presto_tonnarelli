@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Jobs\GoogleVisionLabelImage;
+use App\Jobs\GoogleVisionSafeSearch;
 use App\Jobs\ResizeImage;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +60,7 @@ class CreateArticleForm extends Component
 
     public function store()
     {
-        // La pagina è protetta da auth: anche il submit Livewire deve richiedere il login.
+        // Logica già presente nel progetto: non modificata dalla US7.
         if (! Auth::check()) {
             return $this->redirectRoute('login');
         }
@@ -82,7 +84,10 @@ class CreateArticleForm extends Component
             $newImage = $article->images()->create([
                 'path' => $image->store($newFileName, 'public'),
             ]);
+
             dispatch(new ResizeImage($newImage->path, 300, 300));
+            dispatch(new GoogleVisionSafeSearch($newImage->id));
+            dispatch(new GoogleVisionLabelImage($newImage->id));
         }
 
         $this->reset('title', 'description', 'price', 'category', 'images', 'temporary_images');

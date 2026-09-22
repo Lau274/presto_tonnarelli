@@ -10,6 +10,13 @@ class Image extends Model
 {
     protected $fillable = ['path'];
 
+    protected function casts(): array
+    {
+        return [
+            'labels' => 'array',
+        ];
+    }
+
     public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class);
@@ -25,7 +32,7 @@ class Image extends Model
         $filename = basename($filePath);
         $file = "{$path}/crop_{$w}x{$h}_{$filename}";
 
-        // Foto della US5 o crop non ancora eseguito: mostra l'originale senza cancellare dati.
+        // Logica già presente nella US6 del progetto.
         return Storage::disk('public')->exists($file)
             ? Storage::url($file)
             : Storage::url($filePath);
